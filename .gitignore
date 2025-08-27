@@ -1,0 +1,16 @@
+# Directorios de compilación
+[Bb]in/
+[Oo]bj/
+
+# Archivos de configuración de usuario de Visual Studio
+.vs/
+*.suo
+*.user
+
+# Paquetes y dependencias de NuGet
+packages/
+*.nupkg
+
+# Otros archivos ignorados
+TestResults/
+_ReSharper*/
