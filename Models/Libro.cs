@@ -1,0 +1,15 @@
+namespace Bibliote.Models;
+
+public class Libro
+{
+    public int Id { get; set; }
+    public int IdAutor { get; set; }
+    public string Titulo { get; set; }
+    public string Descripcion { get; set; }
+    public string Genero { get; set; }
+    public string ISBN { get; set; }
+    public DateTime FechaPublicacion { get; set; }
+    public DateTime FechaEdicion { get; set; }
+    public string Edcicion { get; set; }
+    public Autor autor { get; set; }
+}

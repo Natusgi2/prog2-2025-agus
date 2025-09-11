@@ -10,8 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
-builder.Services.AddScoped<IPersonaService, PersonaFileService>();
-//builder.Services.AddSingleton<IPersonaService, PersonaMemService>();
+//builder.Services.AddScoped<IPersonaService, PersonaFileService>();
+builder.Services.AddSingleton<IPersonaService, PersonaMemService>();
+builder.Services.AddSingleton<IAutorService, AutorMemService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
