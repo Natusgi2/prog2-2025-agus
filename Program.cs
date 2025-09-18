@@ -1,7 +1,14 @@
 using Bibliote.Interface;
 using Bibliote.Services;
+using Microsoft.EntityFrameworkCore;
+using Bibliote.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// 1. Añadir cadena de conexión y DbContext
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<BibliotecaDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
@@ -11,7 +18,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 //builder.Services.AddScoped<IPersonaService, PersonaFileService>();
-builder.Services.AddSingleton<IPersonaService, PersonaMemService>();
+//builder.Services.AddSingleton<IPersonaService, PersonaMemService>();
+builder.Services.AddScoped<IPersonaService, PersonaDbService>();
 builder.Services.AddSingleton<IAutorService, AutorMemService>();
 var app = builder.Build();
 

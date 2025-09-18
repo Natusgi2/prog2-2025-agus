@@ -7,4 +7,6 @@ public class Persona
     public string Apellido { get; set; }
     public DateTime FechaNacimiento { get; set; }
     public string DNI { get; set; }
+
+    public string Email { get; set; }
 }
