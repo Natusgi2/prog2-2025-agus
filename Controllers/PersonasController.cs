@@ -25,7 +25,9 @@ public class PersonasController : ControllerBase
     [HttpGet("{id}")]
     public ActionResult<Persona> GetByID(int id)
     {
-        return Ok(_personaService.GetById(id));
+        var p = _personaService.GetById(id);
+        if (p == null) return NotFound($"No se encontro la persona con ID {id}");
+        return Ok(p);
     }
 
     [HttpPost]
@@ -38,26 +40,19 @@ public class PersonasController : ControllerBase
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
-        var p = _personaService.GetById(id);
-
+        //Obtenemos el resultado de la operacion
+        var result = _personaService.Delete(id);
         
-        if (p != null)
-        {
-            _personaService.Delete(id);
-            return NoContent();
-        }
-        else
-        {
-            return NotFound($"No se encontro la persona con ID {id}");
-        }
+        //Si el resultado es true devolvemos NoContent, sino NotFound
+        if (result) return NoContent();
+        else return NotFound($"No se encontro la persona con ID {id}");
     }
 
     [HttpPut("{id}")]
     public ActionResult<Persona> Actualizar([FromBody] Persona persona, int id)
     {
         var p = _personaService.Update(persona, id);
-
-        
+        if (p == null) return NotFound($"No se encontro la persona con ID {id}");
 
         return Ok(p);
     }

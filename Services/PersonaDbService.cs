@@ -21,9 +21,13 @@ namespace Bibliote.Services
             return persona;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var p = GetById(id);
+            if (p == null) return false;
+            _context.Personas.Remove(p);
+            _context.SaveChanges();
+            return true;
         }
 
         public List<Persona> GetAll()
@@ -31,14 +35,25 @@ namespace Bibliote.Services
            return _context.Personas.ToList();
         }
 
-        public Persona GetById(int id)
+        public Persona? GetById(int id)
         {
             return _context.Personas.Find(id);
         }
 
-        public Persona Update(Persona persona, int id)
+        public Persona? Update(Persona persona, int id)
         {
-            throw new NotImplementedException();
+            var _persona = GetById(id);
+            if (_persona == null) return null;
+
+            _persona.Nombre = persona.Nombre;
+            _persona.Apellido = persona.Apellido;
+            _persona.FechaNacimiento = persona.FechaNacimiento;
+            _persona.DNI = persona.DNI;
+            _persona.Email = persona.Email;
+
+            _context.SaveChanges();
+
+            return _persona;
         }
     }
 }

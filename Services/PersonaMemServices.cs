@@ -13,7 +13,8 @@ namespace Bibliote.Services
             Nombre = "Juan",
             Apellido = "Pérez",
             FechaNacimiento = new DateTime(1995, 5, 15),
-            DNI = "12345678A"
+            DNI = "12345678A",
+            Email = "j.test@gmail.com"
         },
         new()
         {
@@ -21,7 +22,8 @@ namespace Bibliote.Services
             Nombre = "María",
             Apellido = "Gómez",
             FechaNacimiento = new DateTime(2000, 8, 20),
-            DNI = "87654321B"
+            DNI = "87654321B",
+            Email = "m.test@gmail.com"
         },
         new ()
         {
@@ -29,7 +31,8 @@ namespace Bibliote.Services
             Nombre = "Carlos",
             Apellido = "Rodríguez",
             FechaNacimiento = new DateTime(1980, 1, 10),
-            DNI = "98765432C"
+            DNI = "98765432C",
+            Email = "c.test@gmail.com"
         },
         new ()
         {
@@ -37,7 +40,8 @@ namespace Bibliote.Services
             Nombre = "Ana",
             Apellido = "López",
             FechaNacimiento = new DateTime(1998, 11, 25),
-            DNI = "56789012D"
+            DNI = "56789012D",
+            Email = "a.test@gmail.com"
         },
         new ()
         {
@@ -45,7 +49,8 @@ namespace Bibliote.Services
             Nombre = "Sofía",
             Apellido = "Martínez",
             FechaNacimiento = new DateTime(1990, 7, 30),
-            DNI = "23456789E"
+            DNI = "23456789E",
+            Email = "s.test@gmail.com"
         }
     };
         public Persona Add(Persona persona)
@@ -55,13 +60,15 @@ namespace Bibliote.Services
             return persona;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var persona = _listaPersonas.FirstOrDefault(p => p.Id == id);
             if (persona != null)
             {
                 _listaPersonas.Remove(persona);
+                return true;
             }
+            return false;
            
         }
 
@@ -70,7 +77,7 @@ namespace Bibliote.Services
             return _listaPersonas;
         }
 
-        public Persona GetById(int id)
+        public Persona? GetById(int id)
         {
             var persona = _listaPersonas.FirstOrDefault(p => p.Id == id);
             return persona;
@@ -78,16 +85,18 @@ namespace Bibliote.Services
             
         }
 
-        public Persona Update(Persona persona, int id)
+        public Persona? Update(Persona persona, int id)
         {
             var personaLista = _listaPersonas.FirstOrDefault(p => p.Id == id);
-            if (personaLista != null)
-            {
-                personaLista.Nombre = persona.Nombre;
-                personaLista.Apellido = persona.Apellido;
-                personaLista.DNI = persona.DNI;
-                personaLista.FechaNacimiento = persona.FechaNacimiento;
-            }
+            //Caso no se encuentre la persona
+            if (personaLista == null) return null;
+
+            //Se encontro la persona, se actualizan los datos
+            personaLista.Nombre = persona.Nombre;
+            personaLista.Apellido = persona.Apellido;
+            personaLista.DNI = persona.DNI;
+            personaLista.FechaNacimiento = persona.FechaNacimiento;
+
             return personaLista;
         }
     }

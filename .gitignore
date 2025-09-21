@@ -14,3 +14,9 @@ packages/
 # Otros archivos ignorados
 TestResults/
 _ReSharper*/
+
+# Variables de entorno
+.env
+.env.local
+.env.development
+.env.production

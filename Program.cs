@@ -2,6 +2,10 @@ using Bibliote.Interface;
 using Bibliote.Services;
 using Microsoft.EntityFrameworkCore;
 using Bibliote.Context;
+using DotNetEnv;
+
+// 0. Cargar variables de entorno ANTES del builder
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +20,12 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+//builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 //builder.Services.AddScoped<IPersonaService, PersonaFileService>();
 //builder.Services.AddSingleton<IPersonaService, PersonaMemService>();
 builder.Services.AddScoped<IPersonaService, PersonaDbService>();
-builder.Services.AddSingleton<IAutorService, AutorMemService>();
+builder.Services.AddScoped<IAutorService, AutorDbService>();
+builder.Services.AddScoped<ILibroService, LibroDbService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
