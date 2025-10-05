@@ -12,5 +12,7 @@ namespace Bibliote.Interface
 
         Persona Add(Persona persona);
 
+        Persona? GetByNombreUsuario(string nombreUsuario);
+
     }
 }

@@ -21,6 +21,11 @@ namespace Bibliote.Services
             return persona;
         }
 
+        public Persona? GetByNombreUsuario(string nombreUsuario)
+        {
+            return _context.Personas.FirstOrDefault(p => p.NombreUsuario == nombreUsuario);
+        }
+
         public bool Delete(int id)
         {
             var p = GetById(id);
@@ -50,6 +55,8 @@ namespace Bibliote.Services
             _persona.FechaNacimiento = persona.FechaNacimiento;
             _persona.DNI = persona.DNI;
             _persona.Email = persona.Email;
+            _persona.NombreUsuario = persona.NombreUsuario;
+            _persona.Rol = persona.Rol;
 
             _context.SaveChanges();
 

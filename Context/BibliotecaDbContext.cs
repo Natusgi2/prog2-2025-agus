@@ -35,6 +35,10 @@ namespace Bibliote.Context
             modelBuilder.Entity<Persona>()
                 .HasIndex(p => p.Email)
                 .IsUnique(); // Configura un índice único en la propiedad Email.
+            
+            modelBuilder.Entity<Persona>()
+                .HasIndex(p => p.NombreUsuario)
+                .IsUnique();
 
             // Configuraciones para Autor
             //Establecemos la clave primaria

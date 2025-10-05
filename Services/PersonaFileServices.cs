@@ -26,6 +26,11 @@ namespace Bibliote.Services
             return persona;
         }
 
+        public Persona? GetByNombreUsuario(string nombreUsuario)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Delete(int id)
         {
             throw new NotImplementedException();
