@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Bibliote.Models;
+using Microsoft.OpenApi.Models;
 
 // Cargar variables de entorno ANTES del builder
 Env.Load();
@@ -24,6 +25,7 @@ builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Jwt"))
 builder.Services
     .AddDbContext<BibliotecaDbContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddHttpClient<PreguntaApiService>();
 // Añadir JWT Authentication
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -49,13 +51,44 @@ builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Configuración básica de Swagger
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tu API", Version = "v1" });
+
+    // Configuración de seguridad para JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Introduce el token JWT en este formato: Bearer {token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 // DI - Añadir servicios de la capa de negocio
 builder.Services.AddScoped<IPersonaService, PersonaDbService>();
 builder.Services.AddScoped<IAutorService, AutorDbService>();
 builder.Services.AddScoped<ILibroService, LibroDbService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPreguntaService, PreguntaApiService>();
 
 
 // Consuir la app

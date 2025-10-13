@@ -1,6 +1,8 @@
 using Bibliote.Models;
 using Bibliote.Context;
 using Bibliote.Interface;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace Bibliote.Services
 {
@@ -31,7 +33,7 @@ namespace Bibliote.Services
 
         public List<Libro> GetAll()
         {
-            return _context.Libros.ToList();
+            return _context.Libros.Include(l => l.Autor).ToList();
         }
 
         public Libro? GetById(int id)
