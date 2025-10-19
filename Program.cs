@@ -67,6 +67,15 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Introduce el token JWT en este formato: Bearer {token}"
     });
 
+    // Configuración de seguridad para API Key
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Name = "X-API-KEY",
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Header,
+        Description = "Introduce la API Key para autenticación entre servicios"
+    });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -76,6 +85,17 @@ builder.Services.AddSwaggerGen(c =>
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
+                }
+            },
+            new string[] {}
+        },
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
                 }
             },
             new string[] {}
@@ -103,6 +123,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Añadir el middleware de API Key ANTES de Authentication
+app.UseMiddleware<Biblioteca.Middleware.ApiKeyMiddleware>();
 
 // Añadir Authentication
 app.UseAuthentication();

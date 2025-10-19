@@ -20,7 +20,7 @@ public class PersonasController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+    [Authorize(Roles = "ApiUser,Admin")] // Permite tanto usuarios API como admins
     public ActionResult<List<PersonaDto>> GetAll()
     {
         //Imprimir todas las claims en un for each
